@@ -6,8 +6,8 @@ const router = Router();
 
 router.get('/products', productsGet);
 router.post('/products', productsPost);
-router.post('/products', productsPut);
-router.post('/products', productsDelete);
+router.put('/products', productsPut);
+router.delete('/products', productsDelete);
 
 
 module.exports = router;

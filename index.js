@@ -4,6 +4,7 @@ const app = express();
 const puerto = process.env.PORT;
 const cors = require ('cors');
 const productRoutes = require ('./routes/product.routes');
+const { dbConnection } = require('./database/config');
 
 
 
@@ -12,15 +13,8 @@ app.use(express.json());
 
 
 
-app.get('/', (req, res) => {
-    res.send('¡Hola, Express!');
-});
-
-
-
-
-
 (async () => {
+    await dbConnection();
     app.use (productRoutes);
 })();
 
