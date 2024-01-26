@@ -1,6 +1,16 @@
 const express = require('express');
+require('dotenv').config();
 const app = express();
-const puerto = 3000;
+const puerto = process.env.PORT;
+const cors = require ('cors');
+const productRoutes = require ('./routes/product.routes');
+
+
+
+app.use(cors());
+app.use(express.json());
+
+
 
 app.get('/', (req, res) => {
     res.send('¡Hola, Express!');
@@ -10,24 +20,9 @@ app.get('/', (req, res) => {
 
 
 
-app.get('/products', (req, res) => {
-    res.send('GET /products');
-});
-
-app.post('/products', (req, res) => {
-    res.send('POST /products');
-});
-
-app.put('/products', (req, res) => {
-    res.send('PUT /products');
-});
-
-app.delete('/products', (req, res) => {
-    res.send('DELETE /products');
-});
-
-
-
+(async () => {
+    app.use (productRoutes);
+})();
 
 
 
