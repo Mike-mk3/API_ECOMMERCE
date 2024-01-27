@@ -60,9 +60,16 @@ const loginPost = async (req = request, res = response) => {
 
     const comparePassword = await bcrypt.compare(body.password, userInformationDb.password);
 
+    if (comparePassword == false) {
+        res.status(400).json({
+            message:"invalid pasword",
+            data: "null"
+        });
+    }
+
     res.status(200).json({
-        message:"logiiiiiiiin correctamente",
-        data: comparePassword
+        message:"login succes",
+        data: 'token'
     });
 }
 
