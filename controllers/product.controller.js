@@ -18,13 +18,21 @@ const productsPost = async (req = request, res = response) => {
     await product.save();
 
     res.status(200).json({
-        message:"datos editados correctamente",
+        message:"datos agregados correctamente",
         data: body
     });
 }
 
-const productsPut = (req = request, res = response) => {
-    res.send('PUT /products');
+const productsPut = async (req = request, res = response) => {
+    const {id} = req.query;
+    const productToEdit = req.body;
+
+    const updateProduct = await Product.findByIdAndUpdate(id, productToEdit, {new: true});
+
+    res.status(200).json({
+        message:"producto actualizado",
+        data: updateProduct
+    });
 }
 
 const productsDelete = async (req = request, res = response) => {
