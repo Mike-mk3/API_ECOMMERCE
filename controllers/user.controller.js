@@ -1,6 +1,7 @@
 const { response, request } = require('express');
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const salt = 10;
 
 
@@ -67,9 +68,16 @@ const loginPost = async (req = request, res = response) => {
         });
     }
 
+
+    const payload = {
+        full_name: `${userInformationDb.name} ${userInformationDb.last_name}`,
+        email: userInformationDb.email
+    };
+
+
     res.status(200).json({
         message:"login succes",
-        data: 'token'
+        data: jwt.sign(payload, process.env.JWT_SIGNATURE)
     });
 }
 
