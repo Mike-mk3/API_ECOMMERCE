@@ -23,5 +23,5 @@ app.use(express.json());
 
 
 app.listen(puerto, () => {
-    console.log('Servidor escuchando en http://localhost:' + puerto);
+    console.log('cuenta de USUARIO con dollares: http://localhost:' + puerto);
 });

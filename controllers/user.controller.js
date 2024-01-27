@@ -1,6 +1,7 @@
 const { response, request } = require('express');
 const User = require('../models/user.model');
-
+const bcrypt = require('bcrypt');
+const salt = 10;
 
 
 const usersGet = async (req = request, res = response) => {
@@ -15,6 +16,7 @@ const usersGet = async (req = request, res = response) => {
 const usersPost = async (req = request, res = response) => {
     const body = req.body;
     let user = User(body);
+    user.password = await bcrypt.hash(user.password, salt);
     await user.save();
 
     res.status(200).json({
@@ -46,9 +48,29 @@ const usersDelete = async (req = request, res = response) => {
 }
 
 
+const loginPost = async (req = request, res = response) => {
+    const body = req.body;
+    const userInformationDb = await User.findOne({email: body.email, active: true});
+    if (userInformationDb == null) {
+        res.status(400).json({
+            message:"user no fond",
+            data: "null"
+        });
+    }
+
+    const comparePassword = await bcrypt.compare(body.password, userInformationDb.password);
+
+    res.status(200).json({
+        message:"logiiiiiiiin correctamente",
+        data: comparePassword
+    });
+}
+
+
 module.exports = {
     usersGet,
     usersPost,
     usersPut,
-    usersDelete 
+    usersDelete,
+    loginPost
 }
