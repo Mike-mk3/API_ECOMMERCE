@@ -6,6 +6,7 @@ const chkToken = async (req, res, next) => {
         if (headers.authorization && headers.authorization.split(' ')[0] === 'Bearer') {
             const token = headers.authorization.split(' ')[1];
             if (jwt.verify(token, process.env.JWT_SIGNATURE)) {
+                req.user = jwt.decode(token);
                 next();
             }
 

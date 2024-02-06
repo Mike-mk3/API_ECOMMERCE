@@ -6,10 +6,21 @@ const salt = 10;
 
 
 const usersGet = async (req = request, res = response) => {
-    const users = await User.find();
+
+    const tokenInfo = req.user;
+    const profileRaw = await User.findById(tokenInfo.id);
+    const profile = {
+        name:profileRaw.name,
+        last_name:profileRaw.last_name,
+        email:profileRaw.email,
+        dob: profileRaw.dob
+    };
+
+
+
     res.status(200).json({
         message: "datos cargados correctamente",
-        data: users
+        data: profile
     });
 
 }
