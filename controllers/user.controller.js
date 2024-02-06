@@ -2,6 +2,7 @@ const { response, request } = require('express');
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { use } = require('../routes/user.routes');
 const salt = 10;
 
 
@@ -40,6 +41,12 @@ const usersPost = async (req = request, res = response) => {
 const usersPut = async (req = request, res = response) => {
     const  id  = req.user.id;
     const userToEdit = req.body;
+
+    if (userToEdit.password != null && userToEdit.password!="")  {
+        userToEdit.password = await bcrypt.hash(userToEdit.password, salt);
+        } else {
+            delete userToEdit.password;
+        }
 
     const updateUser = await User.findByIdAndUpdate(id, userToEdit, { new: true });
 
