@@ -8,7 +8,7 @@ const router = Router();
 router.get('/users', chkToken, usersGet);
 router.post('/users', usersPost);
 router.post('/login',  loginPost);
-router.put('/users', usersPut);
+router.put('/users', chkToken, usersPut);
 router.delete('/users', usersDelete);
 
 

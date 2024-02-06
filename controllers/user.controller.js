@@ -38,7 +38,7 @@ const usersPost = async (req = request, res = response) => {
 }
 
 const usersPut = async (req = request, res = response) => {
-    const { id } = req.query;
+    const  id  = req.user.id;
     const userToEdit = req.body;
 
     const updateUser = await User.findByIdAndUpdate(id, userToEdit, { new: true });
