@@ -4,7 +4,15 @@ const Product = require('../models/product.model');
 
 
 const productsGet = async (req = request, res = response) => {
-    const products = await Product.find();
+    const id = req.query.id;
+
+    let products = [];
+    if (id) {
+        products = await Product.findById(id);
+    } else {
+        products = await Product.find();
+    }
+    
     res.status(200).json({
         message:"datos cargados correctamente",
         data: products
